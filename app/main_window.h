@@ -1,5 +1,5 @@
 //
-// Created by Oscar Berry on 22/07/2018.
+// Created by yuikonnu on 22/07/2018.
 //
 
 #ifndef PROJECT_MAIN_WINDOW_H

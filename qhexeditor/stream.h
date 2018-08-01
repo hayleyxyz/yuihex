@@ -1,5 +1,5 @@
 //
-// Created by Oscar Berry on 19/07/2018.
+// Created by yuikonnu on 19/07/2018.
 //
 
 #ifndef PROJECT_STREAM_H
