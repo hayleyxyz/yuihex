@@ -23,7 +23,7 @@
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     this->resize(800, 600);
-
+    
     auto centralWidget = new QWidget(this);
     centralWidget->setEnabled(true);
 
@@ -55,7 +55,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     {
         auto magicGroupBox = new QGroupBox(centralWidget);
         magicGroupBox->setTitle(tr("Magic"));
-        magicGroupBox->setMaximumHeight(80);
+        //magicGroupBox->setMaximumHeight(80);
+        magicGroupBox->setSizePolicy(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Ignored);
         magicGroupBox->setFixedWidth(250);
 
         auto magicLayout = new QVBoxLayout();
@@ -72,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         auto groupBox = new QGroupBox(centralWidget);
         groupBox->setTitle(QStringLiteral("Data Types"));
         groupBox->setFixedWidth(250);
+        groupBox->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
         verticalLayout->addWidget(groupBox);
 
         auto formLayout = new QFormLayout;
