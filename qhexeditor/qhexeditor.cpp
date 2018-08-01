@@ -35,7 +35,8 @@ void QHexEditor::paintEvent(QPaintEvent *event) {
     }
 
     auto scrollMaxValue = std::ceil(this->stream->length() / this->numberOfBytesPerLine()) - this->numberOfLines();
-    verticalScrollBar()->setRange(0, static_cast<int>(scrollMaxValue + 1));
+    LOG(INFO) << "scrollMaxValue: " << scrollMaxValue;
+    verticalScrollBar()->setRange(0, scrollMaxValue >= 0 ? static_cast<int>(scrollMaxValue + 1) : 0);
 
     this->address = static_cast<addr_t>(verticalScrollBar()->value() * this->numberOfBytesPerLine());
 
@@ -462,8 +463,10 @@ size_t QHexEditor::numberOfBytesPerLine() {
  * @return
  */
 size_t QHexEditor::numberOfLines() {
-    double viewHeight = viewport()->height();
-    return static_cast<size_t>(::floor(viewHeight / charAscent()));
+    return static_cast<size_t>(std::min(
+            ::floor(viewport()->height() / charAscent()),
+            ::ceil(static_cast<double>(this->stream->length()) / this->numberOfBytesPerLine())
+    ));
 }
 
 /**
@@ -484,7 +487,11 @@ void QHexEditor::fillBuffer() {
 
         this->bufferSize = std::min<size_t>(this->bufferMaxSize, streamLength);
 
-        if(this->bufferSize > (streamLength - this->bufferAddress)) {
+        if(this->bufferSize >= streamLength) {
+            this->bufferAddress = 0;
+            this->bufferSize = streamLength;
+        }
+        else if(this->bufferSize > (streamLength - this->bufferAddress)) {
             this->bufferAddress = streamLength - this->bufferSize - 1;
         }
         else {
